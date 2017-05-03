@@ -15,8 +15,7 @@ const server = new Hapi.Server({
 });
 
 server.connection({
-  host: process.env.IP || process.env.OPENSHIFT_NODEJS_IP || 'localhost',
-  port: process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8000
+  port: 8080
 });
 
 server.register([
