@@ -1,0 +1,7 @@
+{
+  "name": "rh-search",
+  "short_name": "rh-search",
+  "description": "Red Hat Search Application",
+  "start_url": "/",
+  "display": "standalone"
+}
