@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd ./public && polymer build",
+    "postinstall": "cd ./public && bower install && polymer build",
     "start": "node server.js",
     "polymer": "polymer"
   },
