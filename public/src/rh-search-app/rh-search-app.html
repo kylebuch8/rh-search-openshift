@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<!--<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">-->
-<!--<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">-->
+<link rel="import" href="rh-search-form.html">
+<link rel="import" href="rh-search-results.html">
+<link rel="import" href="rh-ui-block.html">
 
 <dom-module id="rh-search-app">
   <template>
@@ -9,7 +10,10 @@
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+
+    <rh-search-form query="{{query}}"></rh-search-form>
+    <rh-search-results results="[[results]]"></rh-search-results>
+    <rh-ui-block visible="[[loading]]"></rh-ui-block>
   </template>
 
   <script>
@@ -18,11 +22,133 @@
       static get is() { return 'rh-search-app'; }
       static get properties() {
         return {
-          prop1: {
+          query: String,
+          queryParams: {
+            type: Object,
+            value: {}
+          },
+          results: Array,
+          solrUrl: {
             type: String,
-            value: 'rh-search-app'
+            value: 'https://access.redhat.com/rs/search'
           }
         };
+      }
+
+      static get observers() {
+        return [
+          '_queryParamsChanged(queryParams.*)'
+        ]
+      }
+
+      ready() {
+        super.ready();
+
+        this._popstateHandler = this._popstateHandler.bind(this);
+        this._searchResponseHandler = this._searchResponseHandler.bind(this);
+        this.addEventListener('search-submitted', this._searchSubmittedHandler);
+        this.queryParams = this._parameterize(window.location.search);
+        this.query = this.queryParams.q;
+
+        window.onpopstate = this._popstateHandler;
+      }
+
+      _queryParamsChanged(queryParams) {
+        if (!this.queryParams.q) {
+          return;
+        }
+        this._search();
+      }
+
+      _searchSubmittedHandler() {
+        this.set('queryParams.q', this.query);
+        window.history.pushState(null, null, `?${this._serialize(this.queryParams)}`);
+      }
+
+      _search() {
+        let headers = new Headers({
+          'Accept': 'application/vnd.redhat.solr+json'
+        });
+
+        let defaultParams = {
+          'enableElevation': true,
+          'hl': true,
+          'hl.fl:abstract': 'abstract',
+          'hl.fragsize': 256,
+          'hl.simple.post': '</mark>',
+          'hl.simple.pre': '<mark>',
+          'hl.snippets': 1,
+          'rows': 10,
+          'start': 0
+        };
+
+        let params = Object.assign({}, this.queryParams, defaultParams);
+
+        this.loading = true;
+
+        fetch(`${this.solrUrl}?${this._serialize(params)}`, headers)
+          .then(res => res.json())
+          .then(this._searchResponseHandler);
+      }
+
+      _searchResponseHandler(data) {
+        this.loading = false;
+
+        let highlighting = data.highlighting;
+        let options = {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        };
+
+        data.response.docs.forEach(doc => {
+          // set highlighting if it exists
+          if (highlighting[doc.uri].abstract) {
+            doc.abstract = highlighting[doc.uri].abstract[0];
+          }
+
+          // set formatted date
+          if (doc.lastModifiedDate) {
+            doc.lastModifiedDateFormatted = Intl.DateTimeFormat(navigator.language, options).format(new Date(doc.lastModifiedDate));
+          }
+        });
+
+        this.results = data.response.docs;
+      }
+
+      _popstateHandler(evt) {
+        this.queryParams = this._parameterize(window.location.search);
+        this.query = this.queryParams.q;
+      }
+
+      _parameterize(str) {
+        var params = {};
+
+        if (!str) {
+          return params;
+        }
+
+        str.replace(
+          new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
+          ($0, $1, $2, $3) => { params[$1] = decodeURIComponent($3); }
+        );
+
+        return params;
+      }
+
+      _serialize(obj) {
+        let str = [];
+        for (let p in obj) {
+          if (obj.hasOwnProperty(p)) {
+            str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+          }
+        }
+
+        return str.join('&');
+      }
+
+      _computeHideUiBlock(loading) {
+        return loading ? 'visible' : 'hidden';
       }
     }
 
