@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd ./public && bower install && polymer build",
     "start": "node server.js",
     "polymer": "polymer"
   },

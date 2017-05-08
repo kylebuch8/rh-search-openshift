@@ -1,0 +1,32 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<!--<link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">-->
+<!--<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">-->
+
+</head><body><dom-module id="rh-search-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /** @polymerElement */
+    class RhSearchApp extends Polymer.Element {
+      static get is() { return 'rh-search-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'rh-search-app'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(RhSearchApp.is, RhSearchApp);
+  </script>
+</dom-module>
+</body></html>
