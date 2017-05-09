@@ -3,7 +3,8 @@
   "description": "Red Hat Search Application",
   "main": "index.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0-rc.3"
+    "polymer": "Polymer/polymer#^2.0.0-rc.7",
+    "app-localize-behavior": "PolymerElements/app-localize-behavior#2.0-preview"
   },
   "devDependencies": {
     "web-component-tester": "^6.0.0-prerelease.5",

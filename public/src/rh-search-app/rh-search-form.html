@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="rh-style.html">
 
 <dom-module id="rh-search-form">
@@ -10,17 +11,31 @@
     </style>
 
     <form action="." on-submit="_handleSubmit">
-      <input type="search" name="search" value="{{query::input}}" autofocus="autofocus" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-      <button type="submit" name="Search">Search</button>
+      <input type="search" name="search" value="{{query::input}}" placeholder="[[localize('Keyword')]]" autofocus="autofocus" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <button type="submit" name="[[localize('Search')]]">[[localize('Search')]]</button>
     </form>
   </template>
 
   <script>
     /** @polymerElement */
-    class RhSearchForm extends Polymer.Element {
+    class RhSearchForm extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
       static get is() { return 'rh-search-form'; }
       static get properties() {
         return {
+          language: {
+            type: String,
+            value: 'en'
+          },
+          resources: {
+            value() {
+              return {
+                'en': {
+                  'Search': 'Search',
+                  'Keyword': 'Keyword'
+                }
+              };
+            }
+          },
           query: {
             type: String,
             notify: true

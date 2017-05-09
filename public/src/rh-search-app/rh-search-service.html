@@ -1,0 +1,92 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="rh-search-service">
+  <script>
+    class RhSearchService extends Polymer.Element {
+      static get is() { return 'rh-search-service'; }
+      static get properties() {
+        return {
+          solrUrl: {
+            type: String,
+            value: 'https://access.redhat.com/rs/search'
+          }
+        };
+      }
+
+      search(queryParams) {
+        let headers = new Headers({
+          'Accept': 'application/vnd.redhat.solr+json'
+        });
+
+        let defaultParams = {
+          'enableElevation': true,
+          'hl': true,
+          'hl.fl:abstract': 'abstract',
+          'hl.fragsize': 256,
+          'hl.simple.post': '</mark>',
+          'hl.simple.pre': '<mark>',
+          'hl.snippets': 1,
+          'rows': 10,
+          'start': 0
+        };
+
+        let params = Object.assign({}, queryParams, defaultParams);
+
+        return fetch(`${this.solrUrl}?${this.serialize(params)}`, headers)
+          .then(res => res.json())
+          .then(this._searchResponseHandler);
+      }
+
+      _searchResponseHandler(data) {
+        let highlighting = data.highlighting;
+        let options = {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        };
+
+        data.response.docs.forEach(doc => {
+          // set highlighting if it exists
+          if (highlighting[doc.uri].abstract) {
+            doc.abstract = highlighting[doc.uri].abstract[0];
+          }
+
+          // set formatted date
+          if (doc.lastModifiedDate) {
+            doc.lastModifiedDateFormatted = Intl.DateTimeFormat(navigator.language, options).format(new Date(doc.lastModifiedDate));
+          }
+        });
+
+        return data.response.docs;
+      }
+
+      serialize(obj) {
+        let str = [];
+        for (let p in obj) {
+          if (obj.hasOwnProperty(p)) {
+            str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+          }
+        }
+
+        return str.join('&');
+      }
+
+      parameterize(str) {
+        var params = {};
+
+        if (!str) {
+          return params;
+        }
+
+        str.replace(
+          new RegExp('([^?=&]+)(=([^&]*))?', 'g'),
+          ($0, $1, $2, $3) => { params[$1] = decodeURIComponent($3); }
+        );
+
+        return params;
+      }
+    }
+
+    window.customElements.define(RhSearchService.is, RhSearchService);
+  </script>
+</dom-module>
