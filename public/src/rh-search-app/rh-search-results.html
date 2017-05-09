@@ -1,16 +1,28 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="rh-style.html">
 
 <dom-module id="rh-search-results">
   <template>
-    <style>
+    <style include="rh-style">
+      :host {
+        display: block
+      }
+      
       .result {
-        padding: 16px 0;
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+
+      @media (min-width: 768px) {
+        :host {
+          width: 75%;
+        }
       }
     </style>
 
     <template is="dom-repeat" items="[[results]]" as="result">
-      <div class="result">
+      <div class="result content">
         <h3><a href$="[[result.uri]]">[[result.allTitle]]</a></h3>
         [[result.documentKind]]
         <template is="dom-if" if="[[result.lastModifiedDateFormatted]]">
