@@ -1,4 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-button/paper-icon-button.html">
 
 <dom-module id="rh-app">
   <template>
@@ -8,9 +11,14 @@
         height: 100%;
       }
 
-      nav {
-        background-color: #000;
+      app-toolbar {
+        background: black;
+        color: white;
         height: 56px;
+      }
+
+      app-drawer {
+        z-index: 1;
       }
 
       .logo-link {
@@ -20,29 +28,40 @@
       }
 
       .logo {
-        background: url('https://access.redhat.com/chrome_themes/nimbus/img/l_redhat-reverse.svg');
+        background: url(https://access.redhat.com/chrome_themes/nimbus/img/l_redhat-reverse.svg);
         background-repeat: no-repeat;
         background-size: cover;
         height: 100%;
         width: 100%;
       }
     </style>
-    <nav>
-      <a href="https://access.redhat.com" class="logo-link" aria-label="Red Hat Customer Portal">
-        <div class="logo"></div>
-      </a>
-    </nav>
-    <main>
-      <slot></slot>
-    </main>
-    <footer>
 
-    </footer>
+    <app-drawer-layout>
+      <app-drawer id="drawer">
+        Drawer Content
+      </app-drawer>
+      <app-header-layout>
+        <app-header>
+          <app-toolbar>
+            <paper-icon-button icon="menu" on-click="_toggleDrawer"></paper-icon-button>
+            <a href="https://access.redhat.com" class="logo-link" aria-label="Red Hat Customer Portal">
+              <div class="logo"></div>
+            </a>
+          </app-toolbar>
+        </app-header>
+        <slot></slot>
+      </app-header-layout>
+    </app-drawer-layout>
+
   </template>
 
   <script>
     class RhApp extends Polymer.Element {
       static get is() { return 'rh-app'; }
+
+      _toggleDrawer() {
+        this.$.drawer.toggle();
+      }
     }
 
     window.customElements.define(RhApp.is, RhApp);
