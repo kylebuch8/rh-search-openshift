@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="rh-app.html">
 <link rel="import" href="rh-search-service.html">
 <link rel="import" href="rh-search-form.html">
 <link rel="import" href="rh-search-results.html">
@@ -12,10 +13,12 @@
       }
     </style>
 
-    <rh-search-service id="service"></rh-search-service>
-    <rh-search-form query="{{query}}"></rh-search-form>
-    <rh-search-results results="[[results]]"></rh-search-results>
-    <rh-ui-block visible="[[loading]]"></rh-ui-block>
+    <rh-app>
+      <rh-search-service id="service"></rh-search-service>
+      <rh-search-form query="{{query}}"></rh-search-form>
+      <rh-search-results results="[[results]]"></rh-search-results>
+      <rh-ui-block visible="[[loading]]"></rh-ui-block>
+    </rh-app>
   </template>
 
   <script>
