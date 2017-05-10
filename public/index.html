@@ -13,14 +13,26 @@
     <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
     <link rel="import" href="/src/rh-search-app/rh-search-app.html">
-    <link href="https://fonts.googleapis.com/css?family=Overpass" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Overpass:400,600" rel="stylesheet">
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       html,
       body {
         height: 100%;
         margin: 0;
         font-family: 'Overpass', sans-serif;
+        font-weight: 400;
         color: #333;
+      }
+
+      body {
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-smoothing: antialiased;
       }
     </style>
   </head>

@@ -13,10 +13,60 @@
 
       input {
         font-size: 1em;
+        border-radius: 0;
+        background: white;
+        border: 1px solid #d2d3d4;
+        padding: 4px 8px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
+        margin: 0;
+        font-family: 'Overpass', sans-serif;
+      }
+
+      input:focus {
+        border-color: #66afe9;
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
+      }
+
+      input[type="search"] {
+        -webkit-appearance: none;
+      }
+
+      button {
+        font-family: 'Overpass', sans-serif;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition-duration: 0.4s;
+        transition-property: background;
+        background: #4c4c4c;
+        border-color: #4c4c4c;
+        word-wrap: break-word;
+        white-space: nowrap;
+        border-radius: 0;
+        cursor: pointer;
+        color: white;
+        margin: 0;
+        font-size: 14px;
+        border: 1px solid transparent;
+        padding: 8px 16px;
+      }
+
+      mark {
+        background-color: #fcf8e3;
+        padding: .2em;
       }
 
       .content {
         padding: 0 16px;
+      }
+
+      .push-top {
+        padding-top: 16px;
+      }
+
+      .muted {
+        color: #767676;
       }
     </style>
   </template>

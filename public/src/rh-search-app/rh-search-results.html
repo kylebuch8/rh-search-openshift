@@ -6,17 +6,23 @@
   <template>
     <style include="rh-style">
       :host {
-        display: block
+        display: block;
       }
-      
+
       .result {
         padding-top: 16px;
         padding-bottom: 16px;
       }
 
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
       @media (min-width: 768px) {
         :host {
-          width: 75%;
+          width: 66%;
         }
       }
     </style>
@@ -24,10 +30,12 @@
     <template is="dom-repeat" items="[[results]]" as="result">
       <div class="result content">
         <h3><a href$="[[result.uri]]">[[result.allTitle]]</a></h3>
-        [[result.documentKind]]
-        <template is="dom-if" if="[[result.lastModifiedDateFormatted]]">
-          &mdash;[[result.lastModifiedDateFormatted]]
-        </template>
+        <small class="muted">
+          [[result.documentKind]]
+          <template is="dom-if" if="[[result.lastModifiedDateFormatted]]">
+            &mdash;[[result.lastModifiedDateFormatted]]
+          </template>
+        </small>
         <div inner-h-t-m-l="[[result.abstract]]"></div>
       </div>
     </template>
