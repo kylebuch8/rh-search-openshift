@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="rh-inner-html">
+  <template>
+    <div id="container"></div>
+  </template>
+
+  <script>
+    class RhInnerHtml extends Polymer.Element {
+      static get is() { return 'rh-inner-html'; }
+      static get properties() {
+        return {
+          html: {
+            type: String,
+            observer: '_htmlChanged'
+          }
+        };
+      }
+
+      _htmlChanged(html) {
+        this.$.container.innerHTML = `
+          <style>
+            mark {
+              background: #fcf8e3;
+              padding: .2em;
+            }
+          </style>
+          ${html}
+        `;
+      }
+    }
+
+    window.customElements.define(RhInnerHtml.is, RhInnerHtml);
+  </script>
+</dom-module>

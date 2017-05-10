@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="rh-style.html">
+<link rel="import" href="rh-inner-html.html">
 
 <dom-module id="rh-search-results">
   <template>
@@ -20,6 +21,10 @@
         margin-bottom: 0;
       }
 
+      .meta {
+        margin-bottom: 4px;
+      }
+
       @media (min-width: 768px) {
         :host {
           width: 66%;
@@ -30,13 +35,13 @@
     <template is="dom-repeat" items="[[results]]" as="result">
       <div class="result content">
         <h3><a href$="[[result.uri]]">[[result.allTitle]]</a></h3>
-        <small class="muted">
+        <small class="meta muted">
           [[result.documentKind]]
           <template is="dom-if" if="[[result.lastModifiedDateFormatted]]">
             &mdash;[[result.lastModifiedDateFormatted]]
           </template>
         </small>
-        <div inner-h-t-m-l="[[result.abstract]]"></div>
+        <rh-inner-html html="[[result.abstract]]"></rh-inner-html>
       </div>
     </template>
   </template>
