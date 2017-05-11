@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/index.html","c8329b4ce2e45a2047aa0a2629f7e6cf"],["/src/rh-search-app/rh-search-app.html","b76cbd8ce0308da00745cfe6d2468891"]];
+var precacheConfig = [["/index.html","336705b9bebb48706c77300f0642bea9"],["/src/rh-search-app/rh-search-app.html","b76cbd8ce0308da00745cfe6d2468891"]];
 var cacheName = 'sw-precache-v2--' + (self.registration ? self.registration.scope : '');
 
 
@@ -143,10 +143,10 @@ self.addEventListener('install', function(event) {
         );
       });
     }).then(function() {
-      
+
       // Force the SW to transition from installing -> active state
       return self.skipWaiting();
-      
+
     })
   );
 });
@@ -166,9 +166,9 @@ self.addEventListener('activate', function(event) {
         );
       });
     }).then(function() {
-      
+
       return self.clients.claim();
-      
+
     })
   );
 });
@@ -226,10 +226,3 @@ self.addEventListener('fetch', function(event) {
     }
   }
 });
-
-
-
-
-
-
-
